@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Forecast</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Weather Forecast</h1>
+    <form method="POST">
+      <input type="text" name="city" placeholder="Enter city name" required>
+      <button type="submit">Get Forecast</button>
+    </form>
+
+    {% if forecast_data %}
+    <div class="forecast-container">
+      {% for day in forecast_data %}
+      <div class="weather-card animated fadeIn">
+        <div class="card-header">
+          <h2>Day {{ loop.index }}</h2>
+          <img src="http://openweathermap.org/img/wn/{{ day.icon }}@2x.png" alt="Weather Icon">
+        </div>
+        <div class="card-body">
+          <p><strong>Temperature:</strong> {{ day.temperature }}°C</p>
+          <p><strong>Description:</strong> {{ day.description }}</p>
+          <p><strong>Humidity:</strong> {{ day.humidity }}%</p>
+          <p><strong>Wind Speed:</strong> {{ day.wind_speed }} m/s</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% elif forecast_data is none %}
+    <p class="error animated shake">City not found. Please try again.</p>
+    {% endif %}
+  </div>
+</body>
+</html>
